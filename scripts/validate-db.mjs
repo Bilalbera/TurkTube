@@ -190,9 +190,10 @@ async function main() {
     let sql = readFileSync(join(MIGRATIONS, file), "utf8");
     if (!pgcryptoAvailable) {
       // Not: Supabase her zaman pgcrypto içerir. Bu yalnızca yerel test taklididir.
-      // Fonksiyon olarak döndürülür; aksi halde JS `replace` $$ kaçışını bozar.
-      const stub =
-        "create or replace function public.digest(data text, algo text) returns text language sql immutable as $$ select md5(data) $$;";
+      // pgcrypto'nun digest() fonksiyonu bytea döndürdüğü için taklit de
+      // bytea döndürmelidir; aksi halde encode(...) çağrıları çözülemez.
+      const stub = `create or replace function public.digest(data text, algo text) returns bytea
+        language sql immutable as $$ select decode(md5(data), 'hex') $$;`;
       sql = sql.replace(/create extension if not exists pgcrypto;/i, () => stub);
     }
     await expectOk(`${file} hatasız uygulandı`, () => db.exec(sql));
@@ -451,9 +452,21 @@ async function main() {
     // Aynı izleyiciye ait 24 geçerli kayıt daha (günlük sayacı doldurur)
     await db.query(
       `insert into public.video_views (video_id, user_id, viewer_hash, watch_seconds, is_counted, counted_at)
-       select id, '${U_STRANGER}', $1, 30, true, now() from public.videos where id = $2`,
+       select $2::uuid, '${U_STRANGER}', $1, 30, true, now() from generate_series(1, 24)`,
       [hash, videoB],
     );
+
+    const adet = Number(
+      await scalar(
+        db,
+        `select count(*) from public.video_views where viewer_hash = '${hash}' and is_counted`,
+      ),
+    );
+    if (adet !== 25) {
+      throw new Error(
+        `sayılan kayıt=${adet} (beklenen 25) · hash=${hash} · videoB=${videoB}`,
+      );
+    }
 
     const t = await registerView(U_STRANGER, videoC, 30);
     if (t.sayildi !== false) throw new Error(`sayildi=${t.sayildi}`);
