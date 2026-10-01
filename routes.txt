@@ -1,0 +1,17 @@
+﻿/                            200  13411
+/kesfet                      200  14358
+/ara?q=test                  200  15782
+/giris                       200  14500
+/kayit                       200  14499
+/premium                     200  14518
+/puanlar                     200  14377
+/profil                      200  14524
+/profil/ayarlar              200  15284
+/yukle                       200  14648
+/bildirimler                 200  14387
+/gecmis                      200  14374
+/oynatma-listeleri           200  14560
+/abonelikler                 200  14392
+/izle/olmayan-id             200  14805
+/kanal/olmayan               200  16161
+/yok-boyle-bir-sayfa         404 

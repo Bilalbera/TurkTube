@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════
+   TürkTube tasarım sistemi
+   Renk paleti Turkuaz (Türkçe "turkuaz" kelimesinden) üzerine kuruludur.
+   Anlamsal (semantic) değişkenler kullanılır; açık/koyu tema otomatik uyum
+   sağlar ve tüm yardımcı sınıflar bu değişkenleri okur.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --tt-bg: #f4f6f8;
+  --tt-surface: #ffffff;
+  --tt-surface-2: #eceff4;
+  --tt-line: #dfe4ec;
+  --tt-fg: #101828;
+  --tt-muted: #667085;
+  --tt-brand: #0d9488;
+  --tt-brand-strong: #0f766e;
+  --tt-brand-soft: #ccfbf1;
+  --tt-brand-fg: #ffffff;
+  --tt-accent: #e11d48;
+  --tt-premium: #b45309;
+  --tt-premium-soft: #fef3c7;
+  --tt-shadow: 0 1px 2px rgb(16 24 40 / 0.06), 0 8px 24px -12px rgb(16 24 40 / 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tt-bg: #0b0f14;
+    --tt-surface: #121821;
+    --tt-surface-2: #1a2230;
+    --tt-line: #26303f;
+    --tt-fg: #e8edf5;
+    --tt-muted: #93a1b5;
+    --tt-brand: #2dd4bf;
+    --tt-brand-strong: #5eead4;
+    --tt-brand-soft: #0f3438;
+    --tt-brand-fg: #04211d;
+    --tt-accent: #fb7185;
+    --tt-premium: #fbbf24;
+    --tt-premium-soft: #3a2c08;
+    --tt-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--tt-bg);
+  --color-surface: var(--tt-surface);
+  --color-surface2: var(--tt-surface-2);
+  --color-line: var(--tt-line);
+  --color-fg: var(--tt-fg);
+  --color-muted: var(--tt-muted);
+  --color-brand: var(--tt-brand);
+  --color-brand-strong: var(--tt-brand-strong);
+  --color-brand-soft: var(--tt-brand-soft);
+  --color-brand-fg: var(--tt-brand-fg);
+  --color-accent: var(--tt-accent);
+  --color-premium: var(--tt-premium);
+  --color-premium-soft: var(--tt-premium-soft);
+
+  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif;
+
+  --radius-card: 1rem;
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    background-color: var(--tt-bg);
+    color: var(--tt-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--tt-brand);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--tt-brand-soft);
+    color: var(--tt-fg);
+  }
+}
+
+@layer components {
+  /* Yüzey kartı */
+  .tt-card {
+    background-color: var(--tt-surface);
+    border: 1px solid var(--tt-line);
+    border-radius: var(--radius-card);
+  }
+
+  /* Ana buton */
+  .tt-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+    cursor: pointer;
+  }
+
+  .tt-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .tt-btn-primary {
+    background-color: var(--tt-brand);
+    color: var(--tt-brand-fg);
+  }
+
+  .tt-btn-primary:hover:not(:disabled) {
+    background-color: var(--tt-brand-strong);
+  }
+
+  .tt-btn-soft {
+    background-color: var(--tt-surface-2);
+    color: var(--tt-fg);
+  }
+
+  .tt-btn-soft:hover:not(:disabled) {
+    background-color: var(--tt-line);
+  }
+
+  .tt-btn-outline {
+    background-color: transparent;
+    color: var(--tt-fg);
+    border: 1px solid var(--tt-line);
+  }
+
+  .tt-btn-outline:hover:not(:disabled) {
+    background-color: var(--tt-surface-2);
+  }
+
+  /* Form alanları */
+  .tt-input {
+    width: 100%;
+    background-color: var(--tt-surface);
+    border: 1px solid var(--tt-line);
+    border-radius: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+    color: var(--tt-fg);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .tt-input::placeholder {
+    color: var(--tt-muted);
+  }
+
+  .tt-input:focus {
+    border-color: var(--tt-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--tt-brand) 22%, transparent);
+    outline: none;
+  }
+
+  .tt-label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--tt-muted);
+  }
+
+  /* Satır içi bağlantı / sekme */
+  .tt-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background-color: var(--tt-surface-2);
+    color: var(--tt-fg);
+    white-space: nowrap;
+    transition: background-color 0.15s ease;
+  }
+
+  .tt-chip:hover {
+    background-color: var(--tt-line);
+  }
+
+  .tt-chip-active {
+    background-color: var(--tt-brand);
+    color: var(--tt-brand-fg);
+  }
+
+  /* Premium vurguları */
+  .tt-premium-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background-color: var(--tt-premium-soft);
+    color: var(--tt-premium);
+    border: 1px solid color-mix(in srgb, var(--tt-premium) 40%, transparent);
+  }
+
+  .tt-scroll-x {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tt-scroll-x::-webkit-scrollbar {
+    display: none;
+  }
+}

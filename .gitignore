@@ -1,0 +1,33 @@
+# bağımlılıklar
+/node_modules
+/.pnp
+.pnp.js
+
+# derleme çıktıları
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# ortam değişkenleri (SIRLAR - asla commit etmeyin)
+.env
+.env.local
+.env*.local
+
+# loglar
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# sistem
+.DS_Store
+Thumbs.db
+*.pem
+
+# editör
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# typescript
+*.tsbuildinfo
